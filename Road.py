@@ -14,7 +14,7 @@ class Road(object):
         self.length = length_of_road
         self.NofCars = NofCars
         self.road = self.setUpRoad()
-        self.historical = [self.road[:]]
+        self.historical = [[self.road[:]]]
 
     def setUpRoad(self):
         available_positions = list(range(0, self.length))
@@ -31,6 +31,16 @@ class Road(object):
         print(road)
         self.car_positions.sort()
         return road
+    def animate(self):
+        fig = plt.figure()
+        images = []
+        for a in self.historical:
+
+            renderImage = plt.pcolor(a, cmap=colors.ListedColormap(["Red", "Green"]), edgecolors='k', linewidth=2,
+                                         animated=True)
+            images.append([renderImage])
+        ani = animation.ArtistAnimation(fig, images, interval=500, blit=True, repeat=False)
+        plt.show()
 
 
     def Iterate(self):
@@ -61,15 +71,15 @@ class Road(object):
                         new_carPositions.append(j)
             new_carPositions.sort()
             self.car_positions = new_carPositions[:]
-            self.historical += [self.road[:]]
+            self.historical += [[self.road[:]]]
             print(moves/self.NofCars)
-            print(self.road)
 
 
 
 
 def main():
-    a = Road(200,1000,750)
+    a = Road(100,100,90)
     a.Iterate()
+    a.animate()
 
 main()
